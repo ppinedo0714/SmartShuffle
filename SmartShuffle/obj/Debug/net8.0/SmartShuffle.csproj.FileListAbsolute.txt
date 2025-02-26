@@ -33,3 +33,5 @@ C:\Users\ppinedo\Documents\Projects\SmartShuffle\SmartShuffle\obj\Debug\net8.0\r
 C:\Users\ppinedo\Documents\Projects\SmartShuffle\SmartShuffle\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 C:\Users\ppinedo\Documents\Projects\SmartShuffle\SmartShuffle\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
 C:\Users\ppinedo\Documents\Projects\SmartShuffle\SmartShuffle\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+C:\Users\ppinedo\Documents\Projects\SmartShuffle\SmartShuffle\obj\Debug\net8.0\SmartShuffle.sourcelink.json
+C:\Users\ppinedo\Documents\Projects\SmartShuffle\SmartShuffle\bin\Debug\net8.0\RestSharp.dll
