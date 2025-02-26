@@ -1,0 +1,21 @@
+<h1>Login</h1>
+
+<form {{on "submit" this.handleLogin}}>
+    <div>
+        <label for="username">Username:</label>
+        <input id="username" type="text" {{on "input" this.updateUsername}} value={{this.username}} required>
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input id="password" type="password" {{on "input" this.updatePassword}} value={{this.password}} required>
+    </div>
+    <button type="submit">Login</button>
+</form>
+
+{{#if this.errorMessage}}
+    <p style="color: red;">{{this.errorMessage}}</p>
+{{/if}}
+
+{{#if this.successMessage}}
+    <p style="color: green;">{{this.successMessage}}</p>
+{{/if}}

@@ -1,0 +1,21 @@
+<h2>{{@title}}</h2>
+
+<button type="button" {{on 'click' this.refreshData}}>
+    Show the weather forecast
+</button>
+
+{{#if @weatherforecasts}}
+    <h2>Weather Forecast</h2>
+    <ul>
+        {{#each @weatherforecasts as |forecast|}}
+            <li>
+                <strong>Date:</strong> {{forecast.date}}<br>
+                <strong>Temperature (C):</strong> {{forecast.temperatureC}}<br>
+                <strong>Temperature (F):</strong> {{forecast.temperatureF}}<br>
+                <strong>Summary:</strong> {{forecast.summary}}
+            </li>
+        {{/each}}
+    </ul>
+{{else}}
+    <p>No data available. Click the button to fetch data.</p>
+{{/if}}
