@@ -1,0 +1,6 @@
+@SmartShuffle_HostAddress = http://localhost:5155
+
+GET {{SmartShuffle_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
