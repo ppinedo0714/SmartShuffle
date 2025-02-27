@@ -10,13 +10,16 @@ namespace SmartShuffle.Controllers
     public class OAuthCallbackController : ControllerBase
     {
         private readonly ILogger<OAuthCallbackController> _logger;
+
+        private readonly IConfiguration _configuration;
         
         private IRestClient restClient = new RestClient("https://accounts.spotify.com/api");
 
 
-        public OAuthCallbackController(ILogger<OAuthCallbackController> logger)
+        public OAuthCallbackController(ILogger<OAuthCallbackController> logger, IConfiguration configuration)
         {
             _logger = logger;
+            _configuration = configuration;
         }
 
         [Route("GetOAuthToken")]
@@ -28,10 +31,10 @@ namespace SmartShuffle.Controllers
                 return;
             }
             
-            RestRequest request = new RestRequest((string?)null, Method.Post);
+            RestRequest request = new RestRequest("/token", Method.Post);
             
-            string clientId = "";
-            string clientSecret = "";
+            string clientId = _configuration["SpotifyCredentials:ClientId"] ?? string.Empty;
+            string clientSecret = _configuration["SpotifyCredentials:ClientSecret"] ?? string.Empty;
             byte[] plainTextBytes = System.Text.Encoding.UTF8.GetBytes($"{clientId}:{clientSecret}");
             string base64String = Convert.ToBase64String(plainTextBytes);
             
@@ -40,7 +43,7 @@ namespace SmartShuffle.Controllers
 
             request.AddParameter("grant_type", "authorization_code");
             request.AddParameter("code", code);
-            request.AddParameter("redirect_uri", "https://localhost:44324/OAuthCallback/GetOAuthToken");
+            request.AddParameter("redirect_uri", "http://localhost:5155/OAuthCallback/GetOAuthToken");
             
             RestResponse response = restClient.Execute(request);
         }
