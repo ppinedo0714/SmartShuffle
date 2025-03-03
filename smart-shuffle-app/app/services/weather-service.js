@@ -6,7 +6,7 @@ export default class WeatherService extends Service {
   async getWeatherForecast() {
     try {
       let response = await fetch(
-        'https://localhost:44324/WeatherForecast/GetWeatherForecast',
+        'https://localhost:5155/WeatherForecast/GetWeatherForecast',
       );
 
       if (!response.ok) {

@@ -1,12 +1,15 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import { inject as service } from '@ember/service';
 
 export default class LoginController extends Controller {
   @tracked username = '';
   @tracked password = '';
   @tracked errorMessage = '';
   @tracked successMessage = '';
+
+  @service oauthService;
 
   @action
   updateUsername(event) {
@@ -23,6 +26,8 @@ export default class LoginController extends Controller {
     event.preventDefault();
     this.errorMessage = '';
     this.successMessage = '';
+
+    this.oauthService.getAuthorizationCode();
 
     if (this.username === 'admin' && this.password === 'password') {
       this.successMessage = 'Login successful!';
