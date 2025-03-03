@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using RestSharp;
 
@@ -6,20 +5,31 @@ namespace SmartShuffle.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [EnableCors("AllowSpecificOrigin")] // Apply the CORS policy here
-    public class OAuthCallbackController : ControllerBase
+    public class OAuthController : ControllerBase
     {
-        private readonly ILogger<OAuthCallbackController> _logger;
+        private readonly ILogger<OAuthController> _logger;
 
         private readonly IConfiguration _configuration;
         
-        private IRestClient restClient = new RestClient("https://accounts.spotify.com/api");
+        private IRestClient restClient = new RestClient("https://accounts.spotify.com");
 
 
-        public OAuthCallbackController(ILogger<OAuthCallbackController> logger, IConfiguration configuration)
+        public OAuthController(ILogger<OAuthController> logger, IConfiguration configuration)
         {
             _logger = logger;
             _configuration = configuration;
+        }
+
+        [Route("GetAuthorizationCode")]
+        [HttpGet]
+        public OAuthAuthorizationResponse Get(string? redirectUri, bool showDialog = false)
+        {
+            return new OAuthAuthorizationResponse {
+                Url = "https://accounts.spotify.com/authorize?" + 
+                   $"client_id={_configuration["SpotifyCredentials:ClientId"]}&" + 
+                   "response_type=code&" +
+                   $"redirect_uri={redirectUri}&" +
+                   $"show_dialog={showDialog}'"};
         }
 
         [Route("GetOAuthToken")]
@@ -31,7 +41,7 @@ namespace SmartShuffle.Controllers
                 return;
             }
             
-            RestRequest request = new RestRequest("/token", Method.Post);
+            RestRequest request = new RestRequest("/api/token", Method.Post);
             
             string clientId = _configuration["SpotifyCredentials:ClientId"] ?? string.Empty;
             string clientSecret = _configuration["SpotifyCredentials:ClientSecret"] ?? string.Empty;
@@ -43,7 +53,7 @@ namespace SmartShuffle.Controllers
 
             request.AddParameter("grant_type", "authorization_code");
             request.AddParameter("code", code);
-            request.AddParameter("redirect_uri", "http://localhost:5155/OAuthCallback/GetOAuthToken");
+            request.AddParameter("redirect_uri", "http://localhost:4200/oAuthLanding");
             
             RestResponse response = restClient.Execute(request);
         }
