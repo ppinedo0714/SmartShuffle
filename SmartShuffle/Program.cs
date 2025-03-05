@@ -1,3 +1,5 @@
+using SmartShuffle;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -16,6 +18,9 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader()
             .AllowAnyMethod());
 });
+
+// Register the data access singleton for use in controllers
+builder.Services.AddSingleton<DataAccess>();
 
 var app = builder.Build();
 
