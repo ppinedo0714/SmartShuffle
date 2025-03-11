@@ -10,6 +10,7 @@ export default class LoginController extends Controller {
   @tracked successMessage = '';
 
   @service oauthService;
+  @service loginService;
 
   @action
   updateUsername(event) {
@@ -27,6 +28,7 @@ export default class LoginController extends Controller {
     this.errorMessage = '';
     this.successMessage = '';
 
+    this.loginService.login(this.username, this.password);
     this.oauthService.getAuthorizationCode();
 
     if (this.username === 'admin' && this.password === 'password') {
