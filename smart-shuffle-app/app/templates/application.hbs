@@ -1,7 +1,22 @@
-<h1>Smart Shuffle</h1>
+<div class="home">
+  <header>
+    <button class="hamburger" type="button" {{on "click" this.toggleNav}}>
+      &#9776; <!-- Unicode Hamburger menu -->
+    </button>
+    <h1>Smart Shuffle</h1>
+  </header>
 
-<nav>
-  <LinkTo @route="login">Login</LinkTo>
-</nav>
+  {{outlet}}
 
-{{outlet}}
+  {{#if this.showNav}}
+    <nav class="side-nav">
+      <button class="back-arrow" type="button" {{on "click" this.toggleNav}}>
+        &#8592; <!-- Unicode left arrow -->
+      </button>
+      <ul>
+        <li><LinkTo @route="index" {{on "click" this.toggleNav}}>Home</LinkTo></li>
+        <li><LinkTo @route="login" {{on "click" this.toggleNav}}>Login</LinkTo></li>
+      </ul>
+    </nav>
+  {{/if}}
+</div>

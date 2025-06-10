@@ -1,21 +1,27 @@
-<h1>Login</h1>
+<div class="login-page">
+  <h2>{{if this.isCreatingAccount "Create Account" "Login"}}</h2>
 
-<form {{on "submit" this.handleLogin}}>
+  {{#if this.error}}
+    <div class="error">{{this.error}}</div>
+  {{/if}}
+
+  <form {{on "submit" this.submitForm}}>
     <div>
-        <label for="username">Username:</label>
-        <input id="username" type="text" {{on "input" this.updateUsername}} value={{this.username}} required>
+      <label for="username">Username</label><br>
+      <Input @id="username" @value={{this.username}} @type="text" autocomplete="username" required />
     </div>
+
     <div>
-        <label for="password">Password:</label>
-        <input id="password" type="password" {{on "input" this.updatePassword}} value={{this.password}} required>
+      <label for="password">Password</label><br>
+      <Input @id="password" @value={{this.password}} @type="password" autocomplete="current-password" required />
     </div>
-    <button type="submit">Login</button>
-</form>
 
-{{#if this.errorMessage}}
-    <p style="color: red;">{{this.errorMessage}}</p>
-{{/if}}
+    <button type="submit">
+      {{if this.isCreatingAccount "Create Account" "Login"}}
+    </button>
+  </form>
 
-{{#if this.successMessage}}
-    <p style="color: green;">{{this.successMessage}}</p>
-{{/if}}
+  <button type="button" {{on "click" this.toggleCreateAccount}} class="toggle-mode">
+    {{if this.isCreatingAccount "Already have an account? Login" "Need an account? Sign up"}}
+  </button>
+</div>

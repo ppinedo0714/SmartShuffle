@@ -6,35 +6,44 @@ import { inject as service } from '@ember/service';
 export default class LoginController extends Controller {
   @tracked username = '';
   @tracked password = '';
-  @tracked errorMessage = '';
-  @tracked successMessage = '';
-
-  @service oauthService;
-  @service loginService;
+  @tracked error = '';
+  @tracked isCreatingAccount = false;
 
   @action
-  updateUsername(event) {
-    this.username = event.target.value;
+  toggleCreateAccount() {
+    this.isCreatingAccount = !this.isCreatingAccount;
+    this.error = '';
+    this.username = '';
+    this.password = '';
   }
 
   @action
-  updatePassword(event) {
-    this.password = event.target.value;
-  }
-
-  @action
-  handleLogin(event) {
+  async submitForm(event) {
     event.preventDefault();
-    this.errorMessage = '';
-    this.successMessage = '';
 
-    this.loginService.login(this.username, this.password);
-    this.oauthService.getAuthorizationCode();
+    const endpoint = this.isCreatingAccount ? '/api/signup' : '/api/login';
+    const body = {
+      username: this.username,
+      password: this.password
+    };
 
-    if (this.username === 'admin' && this.password === 'password') {
-      this.successMessage = 'Login successful!';
-    } else {
-      this.errorMessage = 'Invalid username or password.';
+    try {
+      let response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(body),
+      });
+
+      let data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Authentication error');
+      }
+      // Save token, set session, redirect, etc.
+      // For now, just redirect to home:
+      this.transitionTo('index');
+    } catch (e) {
+      this.error = e.message;
     }
   }
 }
