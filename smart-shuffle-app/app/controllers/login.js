@@ -28,9 +28,11 @@ export default class LoginController extends Controller {
 
     if (!this.isCreatingAccount) {
       response = await this.loginService.login(this.username, this.password);
-    }
-    else {
-      response = await this.loginService.createAccount(this.username, this.password);
+    } else {
+      response = await this.loginService.createAccount(
+        this.username,
+        this.password,
+      );
     }
 
     // Success
@@ -39,7 +41,7 @@ export default class LoginController extends Controller {
     }
     // Failure
     else {
-      this.error = "Failed to log in or create account";
+      this.error = 'Failed to log in or create account';
     }
   }
 }

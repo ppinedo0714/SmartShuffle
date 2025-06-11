@@ -5,9 +5,9 @@ export default class OAuthService extends Service {
   async getAuthorizationCode() {
     try {
       let response = await fetch(
-        "http://localhost:5155/Oauth/GetAuthorizationCode?" +
-        `redirectUri=${window.location.origin}/oAuthLanding&` +
-        "showDialog=true",
+        'http://localhost:5155/Oauth/GetAuthorizationCode?' +
+          `redirectUri=${window.location.origin}/oAuthLanding&` +
+          'showDialog=true',
       );
 
       if (!response.ok) {
@@ -27,13 +27,12 @@ export default class OAuthService extends Service {
   async getAuthorizationToken(code, state, error) {
     try {
       await fetch(
-        "http://localhost:5155/Oauth/GetOAuthToken?" +
-        `code=${code}&` +
-        `state=${state}` +
-        `error=${error}`,
+        'http://localhost:5155/Oauth/GetOAuthToken?' +
+          `code=${code}&` +
+          `state=${state}` +
+          `error=${error}`,
       );
-    }
-    catch (error) {
+    } catch (error) {
       console.error('Error getting authorization token: ', error);
     }
   }

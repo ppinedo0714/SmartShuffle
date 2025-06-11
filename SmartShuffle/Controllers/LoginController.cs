@@ -1,5 +1,9 @@
 using System.Data;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace SmartShuffle.Controllers;
 
@@ -24,13 +28,37 @@ public class LoginController : ControllerBase
     [HttpGet]
     public IActionResult LoginAccount(string username, string password)
     {
+        // Validate that user exists
         string query = $"SELECT userId FROM lu_login " +
                        $"WHERE username = '{username}' AND password = '{password}'";
         DataTable loginDataTable = _dataAccess.ExecuteQuery(query);
 
         int? userId = loginDataTable.Rows.Count != 0 ? (int)loginDataTable.Rows[0][0] : null;
+        
+        if (userId == null)
+        {
+            // If user does not exist, return null
+            return NotFound();
+        }
 
-        return Ok(new { userId } );
+        JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+        byte[] key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]!);
+        SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(new[] {
+                new Claim("username", username),
+                new Claim("userId", userId.ToString()!)
+                // optionally more claims
+            }),
+            Expires = DateTime.UtcNow.AddHours(1),
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+        };
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+
+        var jwt = tokenHandler.WriteToken(token);
+
+        // The important part: return as JSON with property "token"
+        return Ok(new { token = jwt });
     }
 
     [Route("CreateAccount")]

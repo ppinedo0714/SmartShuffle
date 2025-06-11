@@ -8,12 +8,12 @@
   <form {{on "submit" this.submitForm}}>
     <div>
       <label for="username">Username</label><br>
-      <Input @id="username" @value={{this.username}} @type="text" autocomplete="username" required />
+      <Input id="username" @value={{this.username}} @type="text" autocomplete="username" required />
     </div>
 
     <div>
       <label for="password">Password</label><br>
-      <Input @id="password" @value={{this.password}} @type="password" autocomplete="current-password" required />
+      <Input id="password" @value={{this.password}} @type="password" autocomplete="current-password" required />
     </div>
 
     <button type="submit">

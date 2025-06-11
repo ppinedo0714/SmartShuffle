@@ -1,97 +1,98 @@
 .home header {
-    display: flex;
-    align-items: center;
-    background: #34495e;
-    color: #fff;
-    padding: 1em;
-  }
-  
-  .hamburger, .back-arrow {
-    font-size: 2em;
-    background: none;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    margin-right: 1em;
-  }
-  
-  .site-info {
-    margin: 2em;
-  }
-  
-  .side-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 180px;
-    background: #222;
-    color: #fff;
-    z-index: 1000;
-    padding-top: 1em;
-  }
+  display: flex;
+  align-items: center;
+  background: #34495e;
+  color: #fff;
+  padding: 1em;
+}
 
-  .side-nav .back-arrow {
-    display: block;
-    margin: 0 0 2em 1em;
-  }
-  
-  .side-nav ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .side-nav li {
-    margin: 1em;
-  }
-  
-  .side-nav a {
-    color: inherit;
-    text-decoration: none;
-    font-size: 1.2em;
-  }
-  
-  .side-nav a:hover {
-    text-decoration: underline;
-  }
+.hamburger,
+.back-arrow {
+  font-size: 2em;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  margin-right: 1em;
+}
 
-  .login-page {
-    max-width: 400px;
-    margin: 3em auto;
-    background: #fff;
-    border-radius: 6px;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.12);
-    padding: 2em;
-  }
-  .login-page h2 {
-    text-align: center;
-  }
-  .login-page .error {
-    background: #fee;
-    color: #c33;
-    border: 1px solid #c99;
-    margin-bottom: 1em;
-    padding: 0.5em;
-    border-radius: 4px;
-    text-align: center;
-  }
-  .login-page form {
-    margin-bottom: 1em;
-  }
-  .login-page label {
-    font-weight: bold;
-  }
-  .login-page input {
-    width: 100%;
-    padding: 0.6em;
-    margin-bottom: 1em;
-  }
-  .toggle-mode {
-    background: none;
-    border: none;
-    color: #369;
-    cursor: pointer;
-    text-decoration: underline;
-    font-size: 1em;
-    width: 100%;
-  }
+.site-info {
+  margin: 2em;
+}
+
+.side-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 180px;
+  background: #222;
+  color: #fff;
+  z-index: 1000;
+  padding-top: 1em;
+}
+
+.side-nav .back-arrow {
+  display: block;
+  margin: 0 0 2em 1em;
+}
+
+.side-nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+.side-nav li {
+  margin: 1em;
+}
+
+.side-nav a {
+  color: inherit;
+  text-decoration: none;
+  font-size: 1.2em;
+}
+
+.side-nav a:hover {
+  text-decoration: underline;
+}
+
+.login-page {
+  max-width: 400px;
+  margin: 3em auto;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+  padding: 2em;
+}
+.login-page h2 {
+  text-align: center;
+}
+.login-page .error {
+  background: #fee;
+  color: #c33;
+  border: 1px solid #c99;
+  margin-bottom: 1em;
+  padding: 0.5em;
+  border-radius: 4px;
+  text-align: center;
+}
+.login-page form {
+  margin-bottom: 1em;
+}
+.login-page label {
+  font-weight: bold;
+}
+.login-page input {
+  width: 100%;
+  padding: 0.6em;
+  margin-bottom: 1em;
+}
+.toggle-mode {
+  background: none;
+  border: none;
+  color: #369;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 1em;
+  width: 100%;
+}
