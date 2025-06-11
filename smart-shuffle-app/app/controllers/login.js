@@ -4,6 +4,9 @@ import { tracked } from '@glimmer/tracking';
 import { inject as service } from '@ember/service';
 
 export default class LoginController extends Controller {
+  @service loginService;
+  @service router;
+
   @tracked username = '';
   @tracked password = '';
   @tracked error = '';
@@ -21,29 +24,22 @@ export default class LoginController extends Controller {
   async submitForm(event) {
     event.preventDefault();
 
-    const endpoint = this.isCreatingAccount ? '/api/signup' : '/api/login';
-    const body = {
-      username: this.username,
-      password: this.password
-    };
+    let response;
 
-    try {
-      let response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(body),
-      });
+    if (!this.isCreatingAccount) {
+      response = await this.loginService.login(this.username, this.password);
+    }
+    else {
+      response = await this.loginService.createAccount(this.username, this.password);
+    }
 
-      let data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Authentication error');
-      }
-      // Save token, set session, redirect, etc.
-      // For now, just redirect to home:
-      this.transitionTo('index');
-    } catch (e) {
-      this.error = e.message;
+    // Success
+    if (response) {
+      this.router.transitionTo('index');
+    }
+    // Failure
+    else {
+      this.error = "Failed to log in or create account";
     }
   }
 }

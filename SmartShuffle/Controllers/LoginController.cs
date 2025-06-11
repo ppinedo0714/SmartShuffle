@@ -22,38 +22,36 @@ public class LoginController : ControllerBase
 
     [Route("LoginAccount")]
     [HttpGet]
-    public int LoginAccount(string username, string password)
+    public IActionResult LoginAccount(string username, string password)
     {
         string query = $"SELECT userId FROM lu_login " +
                        $"WHERE username = '{username}' AND password = '{password}'";
         DataTable loginDataTable = _dataAccess.ExecuteQuery(query);
 
-        int userId = loginDataTable.Rows.Count != 0 ? (int)loginDataTable.Rows[0][0] : 0;
-        
-        return userId;
+        int? userId = loginDataTable.Rows.Count != 0 ? (int)loginDataTable.Rows[0][0] : null;
+
+        return Ok(new { userId } );
     }
 
     [Route("CreateAccount")]
     [HttpGet]
-    public bool CreateAccount(string username, string password)
+    public IActionResult CreateAccount(string username, string password)
     {
         string query1 = $"SELECT COUNT(userId) FROM lu_login " +
                     $"WHERE username = '{username}'";
         DataTable loginDataTable = _dataAccess.ExecuteQuery(query1);
 
-        bool loginExists = (int)loginDataTable.Rows[0][0] == 1;
+        bool isNewUser = (int)loginDataTable.Rows[0][0] != 1;
 
-        if (loginExists)
+        if (!isNewUser)
         {
-            return false;
+            return Ok( isNewUser );
         }
-        else
-        {
-            string query2 = $"INSERT INTO lu_login (username, password) " +
-                           $"VALUES ('{username}', '{password}')";
-            int rowsAffected = _dataAccess.ExecuteNonQuery(query2);
 
-            return true;
-        }
+        string query2 = $"INSERT INTO lu_login (username, password) " +
+                        $"VALUES ('{username}', '{password}')";
+        _dataAccess.ExecuteNonQuery(query2);
+        
+        return Ok ( isNewUser );
     }
 }

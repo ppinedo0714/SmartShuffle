@@ -16,19 +16,31 @@ export default class LoginService extends Service {
 
       let data = await response.json();
 
+      if (data.userId == null) {
+        return false;
+      }
+
       return true;
     } catch (error) {
-      console.error('Error fetching data:', error);
+      throw new Error('Error fetching data:', error);
     }
   }
 
-  async createAccount(code, state, error) {
+  async createAccount(username, password) {
     try {
       let response = await fetch(
         "http://localhost:5155/Login/CreateAccount?" +
         `username=${username}&` +
         `password=${password}`
       );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      let data = await response.json();
+
+      return data.isNewUser;
     }
     catch (error) {
       console.error('Error creating account: ', error);
